@@ -47,33 +47,6 @@ def calcula_frequencia_conjunta(
     return frequencias
 
 
-# def calcula_frequencia_conjunta(
-#     series: pd.DataFrame, normalizacao: Normalizacao, num_intervalos: int = 20
-# ) -> list[int]:
-#     frequencias = []
-
-
-#     series_normalizadas = series.copy()
-#     for col in series_normalizadas:
-#         series_normalizadas[col] = normalizacao.normaliza(series_normalizadas[col])
-
-#     intervalos = normalizacao.intervalos(num_intervalos=num_intervalos)
-
-#     for int_comb in combinations(intervalos, series_normalizadas.shape[1]):
-#         # for interv_x, interv_x
-#         if idx == len(intervalos) - 1:
-#             frequencias.append(int(np.sum(serie_normalizada >= intervalo[0])))
-#         else:
-#             frequencias.append(
-#                 int(
-#                     np.sum(
-#                         (serie_normalizada >= intervalo[0])
-#                         & (serie_normalizada < intervalo[1])
-#                     )
-#                 )
-#             )
-#     return frequencias
-
 
 def calcula_frequencia(
     serie: Sequence[float], normalizacao: Normalizacao, num_intervalos: int = 20
