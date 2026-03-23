@@ -47,6 +47,59 @@ def calcula_frequencia_conjunta(
     return frequencias
 
 
+def classifica_valores_da_serie(
+    serie: NDArray[np.floating], intervalos: ValoresDoIntervalo
+) -> NDArray[np.integer]:
+    bordas = [intervalo[1] for intervalo in intervalos]
+    serie_classificada = np.digitize(serie, bordas)
+    return serie_classificada
+
+
+def calcula_frequencia_conjunta_v2(
+    series: Sequence[NDArray[np.floating]],
+    estimador_intervalos: EstimadorIntervalosHistograma,
+) -> dict[list[int], float]:
+    tamanho_serie = len(series[0])
+    for serie in series:
+        if len(serie) != tamanho_serie:
+            raise ValueError("Todas as séries devem ter o mesmo tamanho.")
+
+    series_classificadas = [
+        classifica_valores_da_serie(
+            serie,
+            estimador_intervalos.calcula_intervalos_histograma(np.array(serie)),
+        )
+        for serie in series
+    ]
+    # 1. Empilhar os arrays como colunas (formato [par, par, ...])
+    pairs = np.vstack(series_classificadas).T
+    # Encontrar pares únicos e suas frequências
+    unique_pairs, counts = np.unique(pairs, axis=0, return_counts=True)
+    frequencias = counts / tamanho_serie
+    for pair, count in zip(unique_pairs, counts):
+        print(f"Par {pair}: {count} ocorrência(s)")
+
+    return dict(zip(tuple(int(i) for i in unique_pairs), frequencias))
+
+
+def calcula_frequencia_serie_classificada(
+    serie_classificada: NDArray[np.integer],
+    tamanho_serie: int,
+) -> dict[int, float]:
+    unique_pairs, counts = np.unique(serie_classificada, return_counts=True)
+    frequencias = counts / tamanho_serie
+    return dict(zip(unique_pairs, frequencias))
+
+
+def calcula_frequencia_v2(
+    serie: NDArray[np.floating],
+    estimador_intervalos: EstimadorIntervalosHistograma,
+) -> dict[int, float]:
+    serie_classificada = classifica_valores_da_serie(
+        serie, estimador_intervalos.calcula_intervalos_histograma(np.array(serie))
+    )
+    return calcula_frequencia_serie_classificada(serie_classificada, len(serie))
+
 
 def calcula_frequencia(
     serie: Sequence[float], normalizacao: Normalizacao, num_intervalos: int = 20
