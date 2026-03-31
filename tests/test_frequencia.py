@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from hidro_entropia.probabilidade import calcula_frequencia_conjunta, calcula_frequencia_conjunta_v2
+from hidro_entropia.probabilidade_old import calcula_frequencia_conjunta
 
 from .conftest import DummyEstimador2Intervalos, DummyEstimador4Intervalos
 
@@ -28,7 +28,7 @@ def test_calcula_frequencia_conjunta_duas_series(
     serie2 = np.array([0.2, 0.3, 0.7, 0.9])
     series = [serie1, serie2]
     estimador = estimador_2intervalos
-    frequencias = calcula_frequencia_conjunta_v2(series, estimador)
+    frequencias = calcula_frequencia_conjunta(series, estimador)
     # Espera-se 4 combinações de intervalos (2x2)
     # [0,0.5)x[0,0.5): 2 elementos (0.1,0.2) e (0.4,0.3)
     # [0,0.5)x[0.5,1): 0 elementos

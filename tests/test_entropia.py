@@ -11,7 +11,7 @@ def test_entropia_marginal_binaria_igualdade_entropia_maxima(
 ):
     serie = np.array([0.1, 0.2, 0.8, 0.9])
     resultado = entropia_marginal(serie, estimador_2intervalos)
-    assert pytest.approx(resultado, rel=1e-8) == 1.0
+    assert np.allclose(resultado, 1.0, rtol=1e-8)
 
 
 def test_entropia_marginal_toda_em_um_intervalo_retornado_zero(
@@ -19,7 +19,7 @@ def test_entropia_marginal_toda_em_um_intervalo_retornado_zero(
 ):
     serie = np.array([0.1, 0.2, 0.3, 0.4])
     resultado = entropia_marginal(serie, estimador_2intervalos)
-    assert pytest.approx(resultado, rel=1e-8) == 0.0
+    assert np.allclose(resultado, 0.0, rtol=1e-8)
 
 
 def test_informacao_mutua_entre_series_independentes_e_zero(
@@ -30,7 +30,7 @@ def test_informacao_mutua_entre_series_independentes_e_zero(
 
     resultado = informacao_mutua([serie_x, serie_y], estimador_2intervalos)
 
-    assert pytest.approx(resultado, abs=1e-10) == 0.0
+    assert np.allclose(resultado, 0.0, rtol=1e-10)
 
 
 def test_informacao_mutua_entre_series_correlacionadas_e_um(
@@ -41,7 +41,7 @@ def test_informacao_mutua_entre_series_correlacionadas_e_um(
 
     resultado = informacao_mutua([serie_x, serie_y], estimador_2intervalos)
 
-    assert pytest.approx(resultado, rel=1e-8) == 1.0
+    assert np.allclose(resultado, 1.0, rtol=1e-8)
 
 
 def test_informacao_mutua_tres_series_correlacionadas_e_dois(
@@ -53,4 +53,4 @@ def test_informacao_mutua_tres_series_correlacionadas_e_dois(
 
     resultado = informacao_mutua([serie_x, serie_y, serie_z], estimador_2intervalos)
 
-    assert pytest.approx(resultado, rel=1e-8) == 2.0
+    assert np.allclose(resultado, 2.0, rtol=1e-8)

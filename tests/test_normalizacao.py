@@ -1,7 +1,7 @@
 import numpy as np
 
 from hidro_entropia.normalizacao import Normalizacao, NormalizacaoMinMax_0_1, NormalizacaoMinMax_1_1
-from hidro_entropia.probabilidade import calcula_frequencia
+from hidro_entropia.probabilidade_old import calcula_frequencia
 
 
 def test_normalizacao_intervalo_menos_um_um():
