@@ -11,17 +11,22 @@ ValoresDoIntervalo = list[tuple[float, float]]
 def classifica_valores_da_serie(
     serie: NDArray[np.floating], intervalos: ValoresDoIntervalo
 ) -> NDArray[np.integer]:
-    bordas = [intervalo[1] for intervalo in intervalos]
+    bordas: list[float] = []
+    for idx, intervalo in enumerate(intervalos):
+        if idx < len(intervalos) - 1:
+            bordas.append(intervalo[1])
+        else:
+            bordas.append(1.1 * intervalo[1])
     serie_classificada = np.digitize(serie, bordas)
     return serie_classificada
 
 
-def calcula_probabilidade_serie_classificada(
+def calcula_probabilidade_de_serie_classificada(
     serie_classificada: NDArray[np.integer],
 ) -> dict[int, float]:
     unique_pairs, counts = np.unique(serie_classificada, return_counts=True)
     probabilidades = counts / len(serie_classificada)
-    return dict(zip(unique_pairs, probabilidades))
+    return dict(zip(unique_pairs.tolist(), probabilidades.tolist()))
 
 
 def calcula_probabilidade(
@@ -31,7 +36,7 @@ def calcula_probabilidade(
     serie_classificada = classifica_valores_da_serie(
         serie, estimador_intervalos.calcula_intervalos_histograma(np.array(serie))
     )
-    return calcula_probabilidade_serie_classificada(serie_classificada)
+    return calcula_probabilidade_de_serie_classificada(serie_classificada)
 
 
 def calcula_probabilidade_conjunta_series_classificadas(
@@ -41,8 +46,8 @@ def calcula_probabilidade_conjunta_series_classificadas(
     pairs = np.vstack(series_classificadas).T
     # Encontrar pares únicos e suas frequências
     unique_pairs, counts = np.unique(pairs, axis=0, return_counts=True)
-
-    return dict(zip([tuple(i) for i in unique_pairs], counts))
+    probabilidades = counts / len(series_classificadas[0])
+    return dict(zip([tuple(i) for i in unique_pairs.tolist()], probabilidades.tolist()))
 
 
 def calcula_probabilidade_conjunta(

@@ -55,7 +55,7 @@ class EstimadorSqrt:
 class EstimadorRice:
     def calcula_intervalos_histograma(
         self, serie: NDArray[np.floating]
-    ) ->list[tuple[float, float]]:
+    ) -> list[tuple[float, float]]:
         n = len(serie)
         self.num_bins = int(np.ceil(2 * (n ** (1 / 3))))
         intervalos = np.linspace(np.min(serie), np.max(serie), self.num_bins + 1)

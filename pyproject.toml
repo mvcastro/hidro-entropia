@@ -5,7 +5,12 @@ description = "Add your description here"
 readme = "README.md"
 authors = [{ name = "mvcastro", email = "mvcastro1975@gmail.com" }]
 requires-python = ">=3.13"
-dependencies = ["numpy>=2.4.1", "pandas>=2.3.3"]
+dependencies = [
+    "numpy>=2.4.1",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.1",
+]
 
 [project.scripts]
 hidro-entropia = "hidro_entropia:main"
@@ -15,7 +20,10 @@ requires = ["uv_build>=0.9.9,<0.10.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = ["pytest>=9.0.2"]
+dev = [
+    "matplotlib>=3.10.8",
+    "pytest>=9.0.2",
+]
 
 [tool.pytest.ini_options]
 addopts = "-v -s"
